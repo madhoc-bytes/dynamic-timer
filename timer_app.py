@@ -18,7 +18,7 @@ class TimerApp:
         self.monitor_activity()
 
     def init_settings(self):
-        self.focus_time = settings.DEFAULT_FOCUS_TIME # minutes
+        self.focus_time = settings.DEFAULT_FOCUS_TIME * 60 # minutes in seconds
         self.idle_time = settings.DEFAULT_IDLE_TIME  # seconds
         self.lookaway_time = settings.DEFAULT_LOOKAWAY_TIME  # seconds
         self.time_left = self.focus_time
