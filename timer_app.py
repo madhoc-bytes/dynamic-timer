@@ -30,8 +30,8 @@ class TimerApp:
 
     def create_styles(self):
         self.h1_style = ("Helvetica", 48)
-        self.p1_style = ("Helvetica", 14)
-        self.p2_style = ("Helvetica", 12)
+        self.p1_style = ("Helvetica", 12)
+        self.p2_style = ("Helvetica", 10)
 
     def create_widgets(self):
         self.create_notebook()
@@ -49,8 +49,8 @@ class TimerApp:
         self.notebook.add(self.settings_frame, text='Settings')
 
     def create_timer_tab_widgets(self):
-        self.label = tk.Label(self.timer_frame, text=self.format_time(self.time_left), font=self.h1_style)
-        self.label.pack(pady=10)
+        self.timer_label = tk.Label(self.timer_frame, text=self.format_time(self.time_left), font=self.h1_style)
+        self.timer_label.pack(pady=10)
         
         self.status_label = tk.Label(self.timer_frame, text="Inactive", font=self.p1_style)
         self.status_label.pack(pady=5)
@@ -106,7 +106,7 @@ class TimerApp:
 
     def start_timer(self):
         self.set_custom_times()
-        self.disable_input_fields()
+        self.disable_custom_inputs()
         self.activate_timer()
 
     def stop_timer(self):
@@ -122,7 +122,7 @@ class TimerApp:
         if self.custom_lookaway_entry.get():
             self.set_custom_lookaway_time()
 
-    def disable_input_fields(self):
+    def disable_custom_inputs(self):
         self.custom_time_entry.config(state=tk.DISABLED)
         self.custom_idle_entry.config(state=tk.DISABLED)
         self.custom_lookaway_entry.config(state=tk.DISABLED)
@@ -138,7 +138,7 @@ class TimerApp:
 
     def reset_timer(self):
         self.time_left = self.focus_time
-        self.label.config(text=self.format_time(self.time_left))
+        self.timer_label.config(text=self.format_time(self.time_left))
         self.start_button.config(state=tk.NORMAL)
         self.status_label.config(text="Inactive")
 
@@ -155,7 +155,7 @@ class TimerApp:
                 self.show_look_away_window()
                 # stop activity monitoring
                 
-            self.label.config(text=self.format_time(self.time_left))
+            self.timer_label.config(text=self.format_time(self.time_left))
         self.root.after(1000, self.update_timer)
 
     def monitor_activity(self):
@@ -197,7 +197,7 @@ class TimerApp:
             custom_time = int(self.custom_time_entry.get()) * 60
             self.focus_time = custom_time
             self.time_left = custom_time
-            self.label.config(text=self.format_time(self.time_left))
+            self.timer_label.config(text=self.format_time(self.time_left))
         except ValueError:
             messagebox.showerror("Invalid Input", "Please enter a valid focus time")
 
@@ -228,7 +228,7 @@ class TimerApp:
 
     def reset_and_resume_timer(self):
         self.time_left = self.focus_time
-        self.label.config(text=self.format_time(self.time_left))
+        self.timer_label.config(text=self.format_time(self.time_left))
         self.start_timer()
         self.monitor_activity()
 
