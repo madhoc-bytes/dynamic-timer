@@ -259,8 +259,3 @@ class TimerApp:
         self.timer_label.config(text=self.format_time(self.time_left))
         self.start_timer()
         self.monitor_activity()
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = TimerApp(root)
-    root.mainloop()
