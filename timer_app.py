@@ -49,8 +49,17 @@ class TimerApp:
         self.notebook.add(self.settings_frame, text='Settings')
 
     def create_timer_tab_widgets(self):
-        self.timer_label = tk.Label(self.timer_frame, text=self.format_time(self.time_left), font=self.h1_style)
-        self.timer_label.pack(pady=10)
+        self.timer_frame_inner = tk.Frame(self.timer_frame)
+        self.timer_frame_inner.pack(pady=10)
+
+        self.subtract_button = tk.Button(self.timer_frame_inner, text="-", command=self.subtract_time, width=3, height=2, font=self.p1_style, state=tk.DISABLED)
+        self.subtract_button.pack(side=tk.LEFT, padx=10)
+        
+        self.timer_label = tk.Label(self.timer_frame_inner, text=self.format_time(self.time_left), font=self.h1_style)
+        self.timer_label.pack(side=tk.LEFT, padx=10)
+        
+        self.add_button = tk.Button(self.timer_frame_inner, text="+", command=self.add_time, width=3, height=2, font=self.p1_style, state=tk.DISABLED)
+        self.add_button.pack(side=tk.LEFT, padx=10)
         
         self.status_label = tk.Label(self.timer_frame, text="Inactive", font=self.p1_style)
         self.status_label.pack(pady=5)
@@ -95,7 +104,7 @@ class TimerApp:
         self.custom_lookaway_entry = tk.Entry(self.settings_frame)
         self.custom_lookaway_entry.pack(pady=5)
 
-        #save settings button
+        # save settings button
         self.save_settings_button = tk.Button(self.settings_frame, text="Apply", command=self.set_custom_times, width=10, height=2, font=self.p1_style)
         self.save_settings_button.pack(pady=10)
         
@@ -107,12 +116,14 @@ class TimerApp:
     def start_timer(self):
         self.set_custom_times()
         self.disable_custom_inputs()
+        self.enable_add_subtract_buttons()
         self.activate_timer()
 
     def stop_timer(self):
-        self.deactivate_timer()
+        self.deactivate_timer()        
+        self.disable_add_subtract_buttons()
+        self.enable_custom_inputs()
         self.reset_timer()
-        self.enable_input_fields()
 
     def set_custom_times(self):
         if self.custom_time_entry.get():
@@ -123,18 +134,36 @@ class TimerApp:
             self.set_custom_lookaway_time()
 
     def disable_custom_inputs(self):
-        self.custom_time_entry.config(state=tk.DISABLED)
-        self.custom_idle_entry.config(state=tk.DISABLED)
-        self.custom_lookaway_entry.config(state=tk.DISABLED)
+        # disable the settings frame
+        self.notebook.tab(1, state='disabled')
 
     def activate_timer(self):
         self.active = True
         self.paused = False
         self.start_button.config(state=tk.DISABLED)
+        self.stop_button.config(state=tk.NORMAL)
         self.status_label.config(text="Active")
 
     def deactivate_timer(self):
         self.active = False
+        self.stop_button.config(state=tk.DISABLED)
+        self.disable_add_subtract_buttons()
+        
+    def add_time(self):
+        self.time_left += 300
+        self.timer_label.config(text=self.format_time(self.time_left))
+
+    def subtract_time(self):
+        self.time_left = max(0, self.time_left - 300)
+        self.timer_label.config(text=self.format_time(self.time_left))
+    
+    def disable_add_subtract_buttons(self):
+        self.subtract_button.config(state=tk.DISABLED)
+        self.add_button.config(state=tk.DISABLED)
+    
+    def enable_add_subtract_buttons(self):
+        self.subtract_button.config(state=tk.NORMAL)
+        self.add_button.config(state=tk.NORMAL)
 
     def reset_timer(self):
         self.time_left = self.focus_time
@@ -142,10 +171,9 @@ class TimerApp:
         self.start_button.config(state=tk.NORMAL)
         self.status_label.config(text="Inactive")
 
-    def enable_input_fields(self):
-        self.custom_time_entry.config(state=tk.NORMAL)
-        self.custom_idle_entry.config(state=tk.NORMAL)
-        self.custom_lookaway_entry.config(state=tk.NORMAL)
+    def enable_custom_inputs(self):
+        # enable the settings frame
+        self.notebook.tab(1, state='normal')
 
     def update_timer(self):
         if self.active and not self.paused:
