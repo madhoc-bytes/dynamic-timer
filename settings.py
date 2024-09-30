@@ -1,0 +1,6 @@
+# DEFAULT_FOCUS_TIME = 20 * 60  # 20 minutes in seconds
+DEFAULT_IDLE_TIME = 30  # seconds
+DEFAULT_LOOKAWAY_TIME = 20  # seconds
+
+
+DEFAULT_FOCUS_TIME = 5  # TESTING
