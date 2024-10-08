@@ -14,5 +14,7 @@ In the settings tab, users can customise the following:
 
 - **Look-away Time** (sec): how long each screen break will last
 
+- **Notification** (min): activate a notification that will alert the user X mins before the timer ends
+
 ## inflight adjustments
 Users can click on the `-` and `+` buttons to the left and right of the main timer while the timer is active to subtract and add 5 min from the remaining focus time while working
