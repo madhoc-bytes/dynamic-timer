@@ -5,7 +5,7 @@ Upon the timer's completion (of the 'focus' time), the user will be prompted to 
 
 The 'dynamic' nature of the timer is that it automatically pauses if the user is idle, and resumes when the user activity detected.
 
-## settings
+## Features
 In the settings tab, users can customise the following:
 
 - **Focus Time** (min): the main timer countdown period
@@ -16,5 +16,5 @@ In the settings tab, users can customise the following:
 
 - **Notification** (min): activate a notification that will alert the user X mins before the timer ends
 
-## inflight adjustments
+### inflight adjustments
 Users can click on the `-` and `+` buttons to the left and right of the main timer while the timer is active to subtract and add 5 min from the remaining focus time while working
